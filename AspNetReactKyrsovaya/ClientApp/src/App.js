@@ -17,13 +17,12 @@ import {
     withRouter
 } from "react-router-dom";
 
-import AddFilm from "./components/AddFilm";
-
+import UpdateFilm from "./components/UpdateFilm";
 import BuyTicket from "./components/BuyTicket";
-
 import AddSession from "./components/AddSession";
 import {NavMenu} from "./components/NavMenu";
 import Test from "./components/Test";
+
 
 class App extends Component {
     static displayName = App.name;
@@ -41,7 +40,7 @@ class App extends Component {
           <NavMenu/>
           <Switch>
             <Route history={history} path='/home' component={Home}/>
-            <Route history={history} path='/AddFilm' component={AddFilm}/>
+            <Route history={history} path='/UpdateFilm/:id?' component={UpdateFilm}/>
             <Route history={history} path='/AddSession' component={AddSession}/>
             <Route history={history} path='/BuyTicket/:id' component={BuyTicket}/>
             <Route history={history} path='/Test/' component={Test}/>
@@ -59,7 +58,7 @@ export default withRouter(App)
           <Route exact path='/' component={Home} />
           <Route path='/counter' component={Counter} />
           <Route path='/BuyTicket' component={BuyTicket}/>
-          <Route path='/AddFilm' component={AddFilm}/>
+          <Route path='/UpdateFilm' component={UpdateFilm}/>
           <Route path='/AddSession' component={AddSession}/>
           <AuthorizeRoute path='/fetch-data' component={FetchData} />
           <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />

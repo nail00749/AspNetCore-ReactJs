@@ -57,17 +57,14 @@ class ListFilms extends Component{
     }
     LoadImages = async (filmId) =>{
         let list = this.state.imgs
-        console.log(this.state.films)
+
         //цикл по айди фильмам и пуш всех картинок
         for (let film of this.state.films) {
             let response = await fetch(this.state.urlImages+'/'+film.filmId)
             if(response.ok){
-                console.log('img loaded')
                 let blob = await response.blob()
                 let url = URL.createObjectURL(blob)
-                console.log(url)
                 list.push(url)
-
             }
         }
 
@@ -96,7 +93,7 @@ class ListFilms extends Component{
             <div>
                 <button>
                     <NavLink tag={Link} to={{
-                        pathname:'/AddFilm',
+                        pathname:'/UpdateFilm',
                         aboutProps: {
                             films: this.state.films
                         }}}>Add Film</NavLink>

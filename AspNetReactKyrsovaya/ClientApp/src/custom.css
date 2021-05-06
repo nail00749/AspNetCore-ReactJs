@@ -52,6 +52,7 @@ code {
 .containerAddFilm{
     display: flex;
     flex-direction: column;
+    margin: 15px;
 }
 .containerAddFilm input{
   margin: 5px;
