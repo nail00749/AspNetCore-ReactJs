@@ -1,0 +1,67 @@
+/* Provide sufficient contrast against white background */
+
+body{
+  background: linear-gradient(90deg, #FA740A, #FA0A7F);
+  margin: 5px;
+  padding: 5px;
+}
+
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.container img{
+  width: 300px;
+  height: 350px;
+  margin: 10px;
+  box-shadow: 0 0 20px #85848a;
+  border-radius: 20px;
+}
+
+.container img:hover{
+  transform: scale(1.05);
+  transition: transform .5s;
+}
+
+.Session{
+  background: #C285FF;
+  margin: 5px;
+  border-radius: 10px;
+}
+.Session:hover{
+  transform: scale(1.1);
+  transition: transform .5s;
+}
+
+.containerAddFilm{
+    display: flex;
+    flex-direction: column;
+}
+.containerAddFilm input{
+  margin: 5px;
+  border-radius: 15px;
+  text-align: center;
+ }
+.containerAddFilm input:focus{
+  transform: scale(1.05);
+  transition: transform .5s;
+}
+
+
+
