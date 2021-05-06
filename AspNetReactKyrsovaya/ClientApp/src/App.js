@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout } from './components/Layout';
+
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
@@ -18,8 +18,12 @@ import {
 } from "react-router-dom";
 
 import AddFilm from "./components/AddFilm";
-import Test from "./components/Test";
+
 import BuyTicket from "./components/BuyTicket";
+
+import AddSession from "./components/AddSession";
+import {NavMenu} from "./components/NavMenu";
+import Test from "./components/Test";
 
 class App extends Component {
     static displayName = App.name;
@@ -34,11 +38,13 @@ class App extends Component {
 
     return (
       <div>
+          <NavMenu/>
           <Switch>
             <Route history={history} path='/home' component={Home}/>
             <Route history={history} path='/AddFilm' component={AddFilm}/>
+            <Route history={history} path='/AddSession' component={AddSession}/>
             <Route history={history} path='/BuyTicket/:id' component={BuyTicket}/>
-            <Route history={history} path='/Test' component={Test}/>
+            <Route history={history} path='/Test/' component={Test}/>
             <Redirect from='/' to='/home'/>
           </Switch>
       </div>

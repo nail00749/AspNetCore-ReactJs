@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -24,8 +25,18 @@ namespace AspNetReactKyrsovaya.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
         {
-            return await _context.Films.ToListAsync();
+            var films = await _context.Films.ToListAsync();
+            /*foreach (var film in films){
+                string path = "./Content/Image" + film.Poster;
+                FileStream fs = new FileStream(path, FileMode.Open);
+                string file_type = "application/jpg";
+                film.File =  File(fs, file_type);
+            }*/
+
+            return films;
         }
+
+        
 
         // GET: api/Films/5
         [HttpGet("{id}")]

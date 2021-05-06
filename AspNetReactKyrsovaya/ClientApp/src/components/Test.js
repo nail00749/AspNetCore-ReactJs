@@ -1,22 +1,34 @@
 import React, {Component} from "react";
-import {Redirect, Route, withRouter} from "react-router-dom";
 
 class Test extends Component{
     constructor(props) {
         super(props);
+        this.state = {
+            img: null,
+            src: ''
+        }
     }
 
+    Click = async () => {
+        let response = await fetch('api/test')
 
-    submitForm (e) {
-        this.props.history.push('/home');
-        e.preventDefault()
+        if(response.ok)
+        {
+            let blob = await response.blob()
+            let urlObject= URL.createObjectURL(blob)
+            this.setState({img: urlObject})
+            console.log(this.state.img)
+        }
     }
 
     render() {
         return (
-            <div></div>
+            <div>
+                <button onClick={this.Click}>Test</button>
+                <img src={this.state.img}/>
+            </div>
         );
     }
 }
 
-export default withRouter(Test)
+export default Test

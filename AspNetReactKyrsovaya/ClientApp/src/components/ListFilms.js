@@ -18,10 +18,11 @@ class ListFilms extends Component{
             urlFilms: 'api/Films',
             urlHalls: 'api/Halls',
             urlSessions: 'api/Sessions',
+            urlImages: 'api/File',
             films: [],
             halls: [],
             sessions: [],
-
+            imgs: []
         }
     }
 
@@ -29,9 +30,7 @@ class ListFilms extends Component{
         this.LoadFilms()
         this.LoadHall()
         this.LoadSessions()
-
-
-
+        /*this.LoadImages()*/
     }
     LoadFilms = async () => {
         let response = await fetch(this.state.urlFilms)
@@ -39,6 +38,7 @@ class ListFilms extends Component{
             let json = await response.json()
             this.setState({films: json})
             console.log('Films from back loaded ', this.state.films)
+            this.LoadImages()
         }
     }
     LoadHall = async () =>{
@@ -55,17 +55,36 @@ class ListFilms extends Component{
             this.setState({sessions: json})
         }
     }
+    LoadImages = async (filmId) =>{
+        let list = this.state.imgs
+        console.log(this.state.films)
+        //цикл по айди фильмам и пуш всех картинок
+        for (let film of this.state.films) {
+            let response = await fetch(this.state.urlImages+'/'+film.filmId)
+            if(response.ok){
+                console.log('img loaded')
+                let blob = await response.blob()
+                let url = URL.createObjectURL(blob)
+                console.log(url)
+                list.push(url)
+
+            }
+        }
+
+        this.setState({imgs: list})
+        console.log(this.state.imgs)
+    }
+
     
     
     render() {
         let list = []
 
         this.state.films.forEach((item, index) =>{
-            console.log(this.state.sessions)
             let test  = this.state.sessions === null ? [] : this.state.sessions.filter(s => s.filmId === item.filmId)
             let thisItem =
                 (<Film Name={item.name} Duration = {item.duration}
-                       Director={item.director} Poster={item.poster}
+                       Director={item.director} Poster={this.state.imgs[index]}
                        Genre={item.genre} Country ={item.country} id={item.filmId}
                        Sessions ={test}/>)
             list.push(thisItem)

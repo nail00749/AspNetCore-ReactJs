@@ -67,10 +67,14 @@ class BuyTicket extends Component{
 
     Places = () =>{
         const hall = this.state.hall
+        console.log(100/this.state.hall.countRows)
         const styles = {
             hallChild:{
-                flex: this.state.hall.countRows+'%',
-                margin: '5px 0px'
+                flex: (100 / this.state.hall.countSeat)+'%',
+                margin: '5px 0px',
+                justifyContent: 'center',
+                alignItems: 'center',
+                display: 'flex'
             }
         }
         const list = []
@@ -146,7 +150,6 @@ class BuyTicket extends Component{
     render() {
         const styles = {
             hall: {
-                backgroundColor: 'red',
                 display: 'flex',
                 flexDirection: 'row',
                 flexWrap: 'wrap',
@@ -184,7 +187,7 @@ class BuyTicket extends Component{
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'center',
+                        justifyContent: 'space-around',
                         alignItems: 'center',
                         border: '1px solid black',
                     }}>
