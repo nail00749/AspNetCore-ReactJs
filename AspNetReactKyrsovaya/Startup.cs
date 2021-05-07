@@ -28,7 +28,7 @@ namespace AspNetReactKyrsovaya
         {
             string connection = Configuration.GetConnectionString("ApplicationConnection");
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
-
+            
             services.AddControllers();
             
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -37,7 +37,10 @@ namespace AspNetReactKyrsovaya
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            
+            
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()

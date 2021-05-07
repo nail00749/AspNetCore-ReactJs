@@ -23,7 +23,6 @@ import AddSession from "./components/AddSession";
 import {NavMenu} from "./components/NavMenu";
 import Test from "./components/Test";
 
-
 class App extends Component {
     static displayName = App.name;
     constructor(props) {
@@ -36,6 +35,7 @@ class App extends Component {
     const {history} = this.props
 
     return (
+
       <div>
           <NavMenu/>
           <Switch>
@@ -44,9 +44,13 @@ class App extends Component {
             <Route history={history} path='/AddSession' component={AddSession}/>
             <Route history={history} path='/BuyTicket/:id' component={BuyTicket}/>
             <Route history={history} path='/Test/' component={Test}/>
+
+              <AuthorizeRoute path='/fetch-data' component={FetchData} />
+              <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
             <Redirect from='/' to='/home'/>
           </Switch>
       </div>
+
     );
   }
 }

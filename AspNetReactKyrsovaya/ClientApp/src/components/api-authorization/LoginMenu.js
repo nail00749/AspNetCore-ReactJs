@@ -10,13 +10,20 @@ export class LoginMenu extends Component {
 
         this.state = {
             isAuthenticated: false,
-            userName: null
+            userName: null,
+            userId : null
         };
     }
 
     componentDidMount() {
         this._subscription = authService.subscribe(() => this.populateState());
         this.populateState();
+
+    }
+
+    childCallback = (e) =>{
+        console.log(this.state.userId)
+        this.props.userCallback(e)
     }
 
     componentWillUnmount() {
@@ -29,10 +36,17 @@ export class LoginMenu extends Component {
             isAuthenticated,
             userName: user && user.name
         });
+        this.setState({
+            isAuthenticated,
+            userId: user && user.sub
+        })
     }
 
+
     render() {
-        const { isAuthenticated, userName } = this.state;
+        this.childCallback(this.state.userId)
+
+        const { isAuthenticated, userName, userId } = this.state;
         if (!isAuthenticated) {
             const registerPath = `${ApplicationPaths.Register}`;
             const loginPath = `${ApplicationPaths.Login}`;
@@ -45,14 +59,19 @@ export class LoginMenu extends Component {
     }
 
     authenticatedView(userName, profilePath, logoutPath) {
-        return (<Fragment>
+        const Context  = React.createContext()
+
+        return (
+            <Context.Provider value={this.state.userId}>
+            <Fragment>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={profilePath}>Hello {userName}</NavLink>
             </NavItem>
             <NavItem>
                 <NavLink tag={Link} className="text-dark" to={logoutPath}>Logout</NavLink>
             </NavItem>
-        </Fragment>);
+        </Fragment>
+            </Context.Provider>);
 
     }
 

@@ -22,20 +22,31 @@ export class NavMenu extends Component {
     });
   }
 
+  userCallback = (e) =>{
+    console.log(e)
+  }
+
+  componentDidMount() {
+    this.userCallback()
+  }
+
+
+
+
   render () {
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/">Кинотеатр</NavbarBrand>
+            <NavbarBrand tag={Link} to="/" ><h2 className={'textGlitch'}>Кинотеарт</h2></NavbarBrand>
+
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                 </NavItem>
-
-                <LoginMenu>
+                <LoginMenu userCallback = {this.userCallback}>
                 </LoginMenu>
               </ul>
             </Collapse>
