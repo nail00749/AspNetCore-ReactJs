@@ -3,6 +3,7 @@ import { NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import authService from './AuthorizeService';
 import { ApplicationPaths } from './ApiAuthorizationConstants';
+import test from "../Test";
 
 export class LoginMenu extends Component {
     constructor(props) {
@@ -22,8 +23,7 @@ export class LoginMenu extends Component {
     }
 
     childCallback = (e) =>{
-        console.log(this.state.userId)
-        this.props.userCallback(e)
+        test.user = e
     }
 
     componentWillUnmount() {

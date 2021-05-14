@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AspNetReactKyrsovaya.Models;
+using Newtonsoft.Json;
 
 namespace AspNetReactKyrsovaya.Controllers
 {
@@ -26,19 +27,9 @@ namespace AspNetReactKyrsovaya.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Film>>> GetFilms()
         {
-            var films = await _context.Films.ToListAsync();
-            /*foreach (var film in films){
-                string path = "./Content/Image" + film.Poster;
-                FileStream fs = new FileStream(path, FileMode.Open);
-                string file_type = "application/jpg";
-                film.File =  File(fs, file_type);
-            }*/
-
-            return films;
+            return await _context.Films.ToListAsync();
         }
-
         
-
         // GET: api/Films/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Film>> GetFilm(int id)
@@ -56,8 +47,21 @@ namespace AspNetReactKyrsovaya.Controllers
         // PUT: api/Films/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFilm(int id, Film film)
+        public async Task<IActionResult> PutFilm(int id, [FromForm] string jsonString, [FromForm]IFormFile file)
         {
+            Film film = JsonConvert.DeserializeObject<Film>(jsonString);
+
+            if (file != null)
+            {
+                string path = "./Content/Image/" + file.FileName;
+                using (var fs = new FileStream(path, FileMode.Create))
+                {
+                    await file.CopyToAsync(fs);
+                }
+
+                film.Poster = file.FileName;
+            }
+
             if (id != film.FilmId)
             {
                 return BadRequest();
@@ -87,8 +91,19 @@ namespace AspNetReactKyrsovaya.Controllers
         // POST: api/Films
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Film>> Post(Film film)
+        public async Task<ActionResult<Film>> Post([FromForm] IFormFile file, [FromForm]string jsonString)
         {
+            Film film = JsonConvert.DeserializeObject<Film>(jsonString);
+
+
+            string path = "./Content/Image/" + file.FileName;
+            using (var fs = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(fs);
+            }
+
+            film.Poster = file.FileName;
+            
             _context.Films.Add(film);
             await _context.SaveChangesAsync();
 

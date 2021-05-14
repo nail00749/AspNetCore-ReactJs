@@ -1,6 +1,7 @@
 ﻿import React, {Component} from "react";
 import Place from "./Place";
 import {Redirect, Route} from "react-router-dom";
+import test from "./Test";
 
 
 
@@ -12,12 +13,14 @@ class BuyTicket extends Component{
             urlFilm: 'api/Films',
             urlHall: 'api/Halls',
             urlTickets: 'api/Tickets',
+            urlImage: 'api/File',
             session: {},
             film: {},
             hall: {},
-            thickets: [],
+            tickets: [],
             listPlaces: [],
-            redirect: false
+            redirect: false,
+            img: null
         }
     }
 
@@ -35,7 +38,7 @@ class BuyTicket extends Component{
         await this.LoadTickets()
         await this.LoadFilm()
         await this.LoadHall()
-
+        await this.LoadImage()
     }
     LoadFilm = async () =>{
         let response = await fetch(this.state.urlFilm + '/' + this.state.session.filmId)
@@ -64,6 +67,16 @@ class BuyTicket extends Component{
             console.log('tickets from back loaded ', this.state.tickets)
         }
     }
+    LoadImage = async () =>{
+        let response = await fetch(this.state.urlImage+'/'+this.state.film.filmId)
+        console.log(response)
+        if(response.ok){
+            let blob = await response.blob()
+            let url = URL.createObjectURL(blob)
+            this.setState({img: url})
+        }
+    }
+
 
     Places = () =>{
         const hall = this.state.hall
@@ -120,6 +133,11 @@ class BuyTicket extends Component{
 
     onSubmit = async () =>{
 
+        if(str === '' || str === undefined){
+            alert('Места не выбраны ')
+            return
+        }
+
         let tickets = []
         let ticketsSplit = await str.split(' ');
 
@@ -145,8 +163,7 @@ class BuyTicket extends Component{
         }
 
     }
-    
-    
+
     render() {
         const styles = {
             hall: {
@@ -164,16 +181,15 @@ class BuyTicket extends Component{
             </Route>
             )
         }else {
-
             return (
                 <div className={'Buy'}>
                     <div className={'container'}>
-                        <img src={this.state.film.poster}/>
+                        <img src={this.state.img}/>
                         <div>
                             <h1>{this.state.film.name}</h1>
                             <h4>{'Дата:' + this.state.session.date}</h4>
                             <h4>{'Зал:' + this.state.hall.name}</h4>
-                            <h4>{'Стоимость:' + this.state.session.price}</h4>
+                            <h4>{'Стоимость:' + this.state.session.price + '\u20bd'}</h4>
                             <h4>{'Режисер:' + this.state.film.director}</h4>
                             <div>
 

@@ -18,7 +18,9 @@ class Session extends Component{
                         }*/}}>
                     <button className={'Session'}>
                         <p>{this.props.date}</p>
+                        <p>{this.props.price + '\u20bd'}</p>
                     </button>
+
                 </NavLink>
             </div>
         );

@@ -22,6 +22,11 @@ import BuyTicket from "./components/BuyTicket";
 import AddSession from "./components/AddSession";
 import {NavMenu} from "./components/NavMenu";
 import Test from "./components/Test";
+import Roles from "./components/Roles";
+import Test1 from "./components/Test1";
+import AdminPanel from "./components/Admin/AdminPanel";
+import AddRole from "./components/Admin/AddRole";
+import ListUsers from "./components/Admin/ListUsers";
 
 class App extends Component {
     static displayName = App.name;
@@ -39,11 +44,16 @@ class App extends Component {
       <div>
           <NavMenu/>
           <Switch>
-            <Route history={history} path='/home' component={Home}/>
-            <Route history={history} path='/UpdateFilm/:id?' component={UpdateFilm}/>
-            <Route history={history} path='/AddSession' component={AddSession}/>
-            <Route history={history} path='/BuyTicket/:id' component={BuyTicket}/>
-            <Route history={history} path='/Test/' component={Test}/>
+             <Route history={history} path='/home' component={Home}/>
+             <Route history={history} path='/UpdateFilm/:id?' component={UpdateFilm}/>
+             <Route history={history} path='/AddSession' component={AddSession}/>
+             <Route history={history} path='/BuyTicket/:id' component={BuyTicket}/>
+             <Route history={history} path='/Roles' component={Roles}/>
+             <Route history={history} path='/test' component={Test1}/>
+             <Route history={history} path='/admin' component={AdminPanel}/>
+             <Route history={history} path='/addRole' component={AddRole}/>
+             <Route history={history} path='/users' component={ListUsers}/>
+
 
               <AuthorizeRoute path='/fetch-data' component={FetchData} />
               <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
@@ -54,16 +64,4 @@ class App extends Component {
     );
   }
 }
-
 export default withRouter(App)
-
-
-/*<Layout>
-          <Route exact path='/' component={Home} />
-          <Route path='/counter' component={Counter} />
-          <Route path='/BuyTicket' component={BuyTicket}/>
-          <Route path='/UpdateFilm' component={UpdateFilm}/>
-          <Route path='/AddSession' component={AddSession}/>
-          <AuthorizeRoute path='/fetch-data' component={FetchData} />
-          <Route path={ApplicationPaths.ApiAuthorizationPrefix} component={ApiAuthorizationRoutes} />
-      </Layout>*/

@@ -17,5 +17,7 @@ namespace AspNetReactKyrsovaya.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        
     }
 }

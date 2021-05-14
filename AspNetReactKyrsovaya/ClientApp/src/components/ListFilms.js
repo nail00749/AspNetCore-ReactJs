@@ -2,6 +2,8 @@
 import Film from "./Film";
 import {Link} from "react-router-dom";
 import {NavLink} from "reactstrap";
+import test from "./Test";
+
 
 
 const styles = {
@@ -22,15 +24,19 @@ class ListFilms extends Component{
             films: [],
             halls: [],
             sessions: [],
-            imgs: []
+            imgs: [],
+            userId: undefined,
+            isAdmin: undefined
         }
-    }
 
-    componentDidMount() {
+
         this.LoadFilms()
         this.LoadHall()
         this.LoadSessions()
-        /*this.LoadImages()*/
+    }
+
+    componentDidMount() {
+
     }
     LoadFilms = async () => {
         let response = await fetch(this.state.urlFilms)
@@ -57,8 +63,6 @@ class ListFilms extends Component{
     }
     LoadImages = async (filmId) =>{
         let list = this.state.imgs
-
-        //цикл по айди фильмам и пуш всех картинок
         for (let film of this.state.films) {
             let response = await fetch(this.state.urlImages+'/'+film.filmId)
             if(response.ok){
@@ -70,7 +74,26 @@ class ListFilms extends Component{
 
         this.setState({imgs: list})
         console.log(this.state.imgs)
+        this.setState({userId: test.user})
+        await this.isAdmin()
     }
+    isAdmin = async () =>{
+        let is = false
+        if(this.state.isAdmin === undefined){
+            let url = 'api/Roles/' + test.user
+            let response = await fetch(url)
+            if (response.ok) {
+                console.log('ok')
+                is = true
+            } else {
+                console.log('bad')
+            }
+            this.setState({isAdmin: is})
+        }
+
+    }
+
+
 
     
     
@@ -83,30 +106,44 @@ class ListFilms extends Component{
                 (<Film Name={item.name} Duration = {item.duration}
                        Director={item.director} Poster={this.state.imgs[index]}
                        Genre={item.genre} Country ={item.country} id={item.filmId}
-                       Sessions ={test}/>)
+                       Sessions ={test}
+                isAdmin = {this.state.isAdmin}/>)
             list.push(thisItem)
         })
 
+        let btns = []
+        let btnFilm = (
+            <button>
+                <NavLink tag={Link} to={{
+                    pathname: '/UpdateFilm',
+                    aboutProps: {
+                        films: this.state.films
+                    }
+                }}>Add Film</NavLink>
+            </button>)
+        let btnSessions = (
+            <button>
+                <NavLink tag={Link} to={{
+                    pathname:'/AddSession',
+                    aboutProps: {
+                        films: this.state.films,
+                        halls: this.state.halls
+                    }}} exact>Add Session</NavLink>
+            </button>)
+
+
+        if(this.state.isAdmin){
+            btns.push(btnFilm)
+            btns.push(btnSessions)
+        }
 
 
         return (
             <div>
-
-                <button>
-                    <NavLink tag={Link} to={{
-                        pathname:'/UpdateFilm',
-                        aboutProps: {
-                            films: this.state.films
-                        }}}>Add Film</NavLink>
-                </button>
-                <button>
-                    <NavLink tag={Link} to={{
-                        pathname:'/AddSession',
-                        aboutProps: {
-                            films: this.state.films,
-                            halls: this.state.halls
-                        }}} exact>Add Session</NavLink>
-                </button>
+                <div style={{marginLeft: '10%'}}>
+                    {btns}
+                </div>
+                
                 <div>
                     {list}
                 </div>

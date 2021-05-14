@@ -18,7 +18,7 @@ html {
 }
 
 .textGlitch{
-  color: #000000;
+  color: #ffffff;
   animation: glitch 0.5s linear infinite;
 }
 @keyframes glitch {

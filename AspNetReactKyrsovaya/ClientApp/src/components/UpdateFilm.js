@@ -11,13 +11,12 @@ class UpdateFilm extends Component{
                 duration: 0,
                 genre: '',
                 director: '',
-                poster: '',
                 country: '',
+                poster: ''
             },
+            img: undefined,
             redirect: false,
         }
-
-
     }
 
 
@@ -40,30 +39,31 @@ class UpdateFilm extends Component{
     //TOdo fix img upload to server
     onChange = (e) =>{
         //this.setState({img: e.target.files[0]})
-
         let newObject = this.state.film
         newObject[e.target.name] = e.target.value
         this.setState({film: newObject})
+        if(e.target.name === 'img'){
+            this.setState({img: e.target.files[0]})
+        }
     }
 
     onSubmit = async () =>{
-
-        let film = this.state.film
+        const formData = new FormData()
+        await formData.append('file', this.state.img)
+        await formData.append('jsonString', JSON.stringify(this.state.film))
 
         if(this.props.match.params.id !== undefined){
             const requestOptions = {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(film)
+                body: formData
             }
-
-            let response = await fetch(this.state.url+'/'+ this.props.match.params.id, requestOptions)
+            let url = this.state.url+ '/' + this.props.match.params.id
+            let response = await fetch(url, requestOptions)
 
         }else{
             const requestOptions = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-                body: JSON.stringify(film)
+                body: formData
             }
 
             let response = await fetch(this.state.url, requestOptions)
@@ -97,7 +97,7 @@ class UpdateFilm extends Component{
                         <div>
                             <img src={this.state.poster === '' ? 'https://air-solutions.ru/images/noimage.png' : this.state.poster}/>
                         </div>
-                            <input type={'file'} placeholder={'Poster'} onChange={this.onChange}/>
+                            <input name={'img'} type={'file'} placeholder={'Poster'} onChange={this.onChange}/>
                             <button onClick={this.onSubmit}>Send</button>
                             {/*<input type={'submit'} value={'Send'}/>*/}
                     {/*</form>*/}

@@ -3,12 +3,14 @@ import custom from '../custom.css'
 import Session from "./Session";
 import {NavLink} from "reactstrap";
 import {Link, Redirect, Route} from "react-router-dom";
+import test from "./Test";
 
 class Film extends Component{
     constructor(props) {
         super(props);
         this.state= {
-            redirect: false
+            redirect: false,
+            isAdmin: false
         }
     }
 
@@ -19,10 +21,10 @@ class Film extends Component{
         this.setState({redirect : true})
     }
 
-    
+
     render() {
         let listSessions = this.props.Sessions !== null ?
-            this.props.Sessions.map((item, index) => <Session date={item.date} id={item.sessionId}></Session>) : [];
+            this.props.Sessions.map((item, index) => <Session date={item.date} id={item.sessionId} price={item.price}></Session>) : [];
         if(this.state.redirect){
             return (
                 <Route>
@@ -30,7 +32,17 @@ class Film extends Component{
                 </Route>
             )
         }
-
+        let btns = []
+        if(this.props.isAdmin){
+            btns.push(
+            <NavLink tag={Link}
+               to={{
+                   pathname:'/UpdateFilm/'+this.props.id,
+               }}>
+                <button>Edit film</button>
+            </NavLink>)
+            btns.push(<button onClick={this.Delete}>DeleteFilm</button>)
+        }
 
         return (
             <div className={'container'}>
@@ -42,14 +54,9 @@ class Film extends Component{
                     <h4>{'Режиссер:'+this.props.Director}</h4>
                     <h4>{'Жанр:'+this.props.Genre}</h4>
                     <h4>{'Страна:'+this.props.Country}</h4>
-
-                    <NavLink tag={Link}
-                             to={{
-                                 pathname:'/UpdateFilm/'+this.props.id,
-                             }}>
-                        <button>Edit film</button>
-                    </NavLink>
-                    <button onClick={this.Delete}>DeleteFilm</button>
+                    <div>
+                        {btns}
+                    </div>
                     <div className={'container'}>
                         {listSessions}
                     </div>

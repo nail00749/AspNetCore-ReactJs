@@ -19,7 +19,7 @@ class Place extends Component{
             <div style={this.props.styles}>
                 <button disabled={this.props.isBusy} style={{
                     borderRadius: 10,
-                    backgroundColor: this.props.isBusy ? '#FF8B11' : this.state.active ? '#D766F2' : '#6D35A6'
+                    backgroundColor: this.props.isBusy ? '#fd2323' : this.state.active ? '#ff8b00' : '#00f615'
                 }}
                     onClick={
                         this.onClick
